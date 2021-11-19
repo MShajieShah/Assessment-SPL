@@ -1,4 +1,4 @@
-#Recursion Program On:
+# #Recursion Program On:
 
 #reverse a string
 
@@ -71,16 +71,6 @@ end
 
 p fac(5)
 
-def fun1(n)
-  if (n == 1)
-    return 0
-  else
-    p 1 + fun1(n / 2)
-  end
-end
-
-p fun1(7)
-
 #deep
 def rec_naive(num)
   if num == 1
@@ -113,3 +103,16 @@ def multi_sum(num, ten = 10)
 end
 
 p multi_sum(10)
+
+#count vowel
+def count_vowels(s)
+  if s.empty?
+    return 0
+  elsif s[0].match(/[aeiou]/)
+    return 1 + count_vowels(s[1..-1])
+  else
+    return 0 + count_vowels(s[1..-1])
+  end
+end
+
+p count_vowels("apple")
