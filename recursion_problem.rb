@@ -45,7 +45,7 @@ def findavg(a)
     sum = a.pop
     sum = sum + findavg(a)
   end
-  sum
+  sum / 2
 end
 
 p findavg([1, 2, 3, 4, 5])
@@ -75,7 +75,41 @@ def fun1(n)
   if (n == 1)
     return 0
   else
-   p 1 + fun1(n / 2)
+    p 1 + fun1(n / 2)
   end
 end
+
 p fun1(7)
+
+#deep
+def rec_naive(num)
+  if num == 1
+    return num
+  else
+    rec_naive(num - 1) + num
+  end
+end
+
+p rec_naive(100)
+
+# length
+def length(s)
+  if s.empty?
+    0
+  else
+    1 + length(s[1..-1])
+  end
+end
+
+p length("apple")
+
+#sum of multiplication
+def multi_sum(num, ten = 10)
+  if ten == 0
+    return 0
+  else
+    return num * ten + multi_sum(num, ten - 1)
+  end
+end
+
+p multi_sum(10)
