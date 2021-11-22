@@ -1,6 +1,6 @@
 # #Recursion Program On:
 
-#reverse a string
+#reverse a string and remove all vowel letters
 
 def reverse_string(str)
   a = str.size < 2 ? str : str[-1] + reverse_string(str[1..-2]) + str[0]
@@ -15,7 +15,7 @@ p reverse_string("abcdefghi")
 
 def sum_num(arr)
   if arr.size == 0
-    return "Empty"
+    return 0
   else
     sum = arr.pop
     return sum + sum_num(arr)
@@ -24,7 +24,7 @@ end
 
 p sum_num([])
 
-#fabonacci series
+#factorial
 
 def factorial(number)
   if (0..1).include?(number)
@@ -37,18 +37,18 @@ end
 p factorial(0)
 
 #average
-def findavg(a)
-  n = a.size
+def find_avg(arr)
+  n = arr.size
   if (n == 1)
-    return sum = a[0]
+    return sum = arr[0]
   else
-    sum = a.pop
-    sum = sum + findavg(a)
+    sum = arr.pop
+    sum = (sum + find_avg(arr)).to_f
   end
   sum / 2
 end
 
-p findavg([1, 2, 3, 4, 5])
+p find_avg([1, 2, 3, 4, 5])
 
 #count down
 def countdown(n)
@@ -59,17 +59,11 @@ end
 
 p countdown(3)
 
-# factorial
-
-def fac(n)
-  if (n == 0 || n == 1)
-    return 1
-  else
-    return n * fac(n - 1)
-  end
+#fabonacci
+def fib(n)
+  return n if n < 2
+  p fib(n - 1) + fib(n - 2)
 end
-
-p fac(5)
 
 #deep
 def rec_naive(num)
