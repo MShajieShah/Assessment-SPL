@@ -110,3 +110,13 @@ def count_vowels(s)
 end
 
 p count_vowels("apple")
+
+# repeat summing until you get one digit.
+
+def add_digits(num)
+  if num > 0
+    return (num - 1) % 9 + 1
+  else 0   end
+end
+
+p add_digits(881)
