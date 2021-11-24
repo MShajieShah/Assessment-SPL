@@ -120,3 +120,14 @@ def add_digits(num)
 end
 
 p add_digits(881)
+
+# Power
+
+def power(x, y)
+  result = 1
+  if (y == 0)
+    return result
+  else
+    result = x * (power(x, y - 1))
+  end
+end
