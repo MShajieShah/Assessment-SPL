@@ -131,3 +131,36 @@ def power(x, y)
     result = x * (power(x, y - 1))
   end
 end
+
+#Recursive function packs allocated for packing space
+class Bakery
+  attr_accessor :selected_packs
+
+  def initialize
+    @packs = [5, 3]
+    @selected_packs = []
+  end
+
+  def allocate(qty)
+    remaining_qty = nil
+    @packs.each do |pack|
+      remaining_qty = qty - pack
+      if remaining_qty > 0
+        ret_val = allocate(remaining_qty)
+        if ret_val == 0
+          @selected_packs << pack
+          remaining_qty = 0
+          break
+        end
+      elsif remaining_qty == 0
+        @selected_packs << pack
+        break
+      end
+    end
+    remaining_qty
+  end
+end
+
+bakery = Bakery.new
+bakery.allocate(16)
+puts "Pack combination is: #{bakery.selected_packs}"
