@@ -9,7 +9,7 @@
 1. you are not allowed to push code to this repository. Therefore you are
    required to create a copy of this repository on your own account and work on it.
    Hint: Make good use of git clone, git fork, git plugins for vs code etc.
-   
+
 2.  Create a two branch one name as Algorithm and one named as oop. Do the oop problems in oop branch and remaining in Algorithm branch.
     **Make the best use out of git.**
 
