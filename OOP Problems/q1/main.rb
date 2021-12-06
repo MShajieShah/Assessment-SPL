@@ -59,6 +59,38 @@ def student_input
   return std_fname, std_lname, std_pass, std_uname, std_rollno, std_status
 end
 
+#instructor input
+def instructor_input
+  puts "Enter First Name: "
+  inst_fname = (gets.chomp).downcase
+  puts "Enter Last Name: "
+  inst_lname = (gets.chomp).downcase
+  puts "Enter Password: "
+  inst_pass = gets.chomp
+  if inst_pass[/^(?=.*[a-zA-Z])(?=.*[0-9])/] == nil
+    puts "Invalid Password"
+    puts "Enter Again Password "
+    inst_pass = gets.chomp
+    if inst_pass[/^(?=.*[a-zA-Z])(?=.*[0-9])/] == nil
+      puts "Again wrong input."
+      puts "System is about to exit"
+      exit
+    end
+  end
+  puts "Enter User Name: "
+  inst_uname = (gets.chomp).downcase
+  if inst_uname[/\s/] != nil
+    puts "Name not having a space"
+    inst_uname = (gets.chomp).downcase
+  end
+  puts "Enter Instructor Designation"
+  inst_designation = gets.chomp
+  puts "Enter Instructor Qualification"
+  inst_qualification = gets.chomp
+  return inst_fname, inst_lname, inst_pass, inst_uname, inst_designation, inst_qualification
+end
+
+#course input
 def course_input
   puts "Enter code: "
   course_code = (gets.chomp).downcase
@@ -78,17 +110,65 @@ puts "|   Learning Management System      |"
 puts "|                                   |"
 puts "-------------------------------------"
 puts "       1. Sign In"
-puts "       2.Sign Up"
+puts "       2. Sign Up"
+puts "       3. Exit"
+# main_menu_flag = true
 option = gets.chomp
+# while main_menu_flag
 if option == "1"
   puts "Enter User Name"
   entry_name = (gets.chomp).downcase
   puts "Enter a valid Password"
   pass = gets.chomp
-else option == "2"
-  students = student_input
-  std = Student.new(students[0], students[1], students[2], students[3], students[4], students[5])
-  std.save_std end
+  mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
+  # courses = course_input
+  # cour = Course.new(courses[0], courses[1], courses[2], courses[3], mem)
+  # cour.save_course
+  p mem.course_names
+elsif option == "2"
+  system("clear")
+  puts "-------------------------------------"
+  puts "|                                   |"
+  puts "|   Learning Management System      |"
+  puts "|                                   |"
+  puts "-------------------------------------"
+  puts "       1. Sign Up As Student"
+  puts "       2. Sign Up As Instructor"
+  puts "       3.Return"
+  signup_menu_flag = true
+  while signup_menu_flag
+    pick = gets.chomp
+    if pick == "1"
+      students = student_input
+      std = Student.new(students[0], students[1], students[2], students[3], students[4], students[5])
+      std.save_std
+    elsif pick == "2"
+      instructors = instructor_input
+      inst = Instructor.new(instructors[0], instructors[1], instructors[2], instructors[3], instructors[4], instructors[5])
+      system("clear")
+      inst.save_inst
+      p "Want to add course??"
+      courses = course_input
+      cour = Course.new(courses[0], courses[1], courses[2], courses[3], inst)
+      cour.save_course
+      p inst.course_names
+    elsif pick == "3"
+      signup_menu_flag = false
+    else
+      system("clear")
+      puts "HALT....!!!! You choose the wrong Option"
+      puts "Restart again"
+    end
+  end
+  # elsif option = "3"
+  #   main_menu_flag = false
+else
+  system("clear")
+  puts "HALT....!!!! You choose the wrong Option"
+  puts "Restart again"
+end
+# end
+
 # course_menu_flag = true
 # while course_menu_flag
 #   system("clear")
@@ -117,9 +197,11 @@ else option == "2"
 # shaje = Student.new("Shajie", "shah", "abc", "shah", "123", "no")
 # noman = Student.new("Noman", "Jamil", "def", "nomi", "321", "yes")
 
+# inst = Instructor.new("shajie", "shah", "a1", "sshah", "Professor", "MSCS")
+
 # #courses
 # #shaje
-# english = Course.new("123", "English", "st.stephen", "123", shaje)
+# english = Course.new("123", "English", "st.stephen", "123", inst)
 # math = Course.new("321", "Math", "st.stephen", "321", shaje)
 # stat = Course.new("456", "Stat", "st.stephen", "456", shaje)
 # computer = Course.new("654", "Computer", "st.stephen", "654", shaje)
@@ -130,5 +212,5 @@ else option == "2"
 # sst = Course.new("85", "Social Studies", "st.stephen", "123", noman)
 # sci = Course.new("58", "Sciences", "st.stephen", "123", noman)
 
-# p shaje.course_names
+# p inst.course_names
 # p noman.course_names

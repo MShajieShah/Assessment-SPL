@@ -8,10 +8,24 @@ class Instructor
     @user_lastname = inst_lname
     @user_pass = inst_pass
     @user_uname = inst_uname
-    @designation = designation
-    @qualification = qualification
+    @designation = inst_designation
+    @qualification = inst_qualification
   end
 
-  def marks
+  def save_inst
+    ifile = File.open("data/instructordata")
+    data = ifile.readlines
+    ifile.close
+    data.insert(1, "Instructor First Name: ", @user_firstname, " ", "Instructor Last Name: ", @user_lastname, "  ", "Instructor Password: ", @user_pass, " ", "Instructor User Name: ", @user_uname, " ", "Instructor Designation: ", @designation, " ", "Instructor Qualification: ", @qualification, "\n")
+    File.write("data/instructordata", data.join, mode: "w")
+    puts "Account Created...!!!"
+  end
+
+  def courses
+    Course.all.select { |course| course.instructor == self }
+  end
+
+  def course_names
+    courses.map { |course| course.course_name }
   end
 end

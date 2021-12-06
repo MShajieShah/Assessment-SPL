@@ -16,7 +16,7 @@ class Student
     ifile = File.open("data/studentdata")
     data = ifile.readlines
     ifile.close
-    data.insert(1, "Student First Name ", @user_firstname, " ", "Student Last Name ", @user_lastname, "  ", "Student Password", @user_pass, " ", "Student User Name", @user_uname, " ", "Student Roll no", @rollno, " ", "Student Status", @status, "\n")
+    data.insert(1, "Student First Name: ", @user_firstname, " ", "Student Last Name: ", @user_lastname, "  ", "Student Password: ", @user_pass, " ", "Student User Name: ", @user_uname, " ", "Student Roll no: ", @rollno, " ", "Student Status: ", @status, "\n")
     File.write("data/studentdata", data.join, mode: "w")
     puts "Account Created...!!!"
   end

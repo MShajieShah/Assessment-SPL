@@ -1,13 +1,14 @@
 class Course
-  attr_accessor :course_name, :course_code, :offering_school, :capacity, :std_uname
-  # @@all = []
+  attr_accessor :course_name, :course_code, :offering_school, :capacity, :instructor
+  @@all = []
 
-  def initialize(course_code, course_name, offering_school, capacity)
+  def initialize(course_code, course_name, offering_school, capacity, instructor)
     @course_code = course_code
     @course_name = course_name
     @offering_school = offering_school
     @capacity = capacity
-    # @@all << self
+    @instructor = instructor
+    @@all << self
   end
 
   def save_course
@@ -22,7 +23,7 @@ class Course
   def self.show_course
     File.foreach("data/coursedata") { |line| puts line }
   end
-  # def self.all
-  #   @@all
-  # end
+  def self.all
+    @@all
+  end
 end
