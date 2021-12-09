@@ -1,4 +1,4 @@
-class Assignment
+class Assignment < Instructor
   attr_accessor :course_code, :assign_title, :instructor_username
   @@all = []
 

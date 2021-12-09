@@ -5,7 +5,15 @@ class User
     @user_firstname
     @user_lastname
     @user_pass
-    @user_uname
   end
-  
+
+  def self.getprofile(entry_name)
+    if 
+      puts ""
+    elsif instructor?
+      puts ""
+    else
+    puts "Not Found"
+    end
+  end
 end

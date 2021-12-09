@@ -24,10 +24,11 @@
 # And for a Professor("Habib-ur-Rehman","Assistant Professor") overridden getProfile will print Habib-ur-Rehman is Assistant Professor at LUMS
 # Overload operators if required.
 # # Thought Process and Approach in this problem should be well documented
+require_relative "user.rb"
 require_relative "student.rb"
 require_relative "instructor.rb"
-require_relative "assignment.rb"
 require_relative "course.rb"
+require_relative "assignment.rb"
 
 def student_input
   puts "Enter First Name: "
@@ -47,17 +48,17 @@ def student_input
     end
   end
   puts "Enter User Name: "
-  std_uname = (gets.chomp).downcase
-  if std_uname[/\s/] != nil
+  student_username = (gets.chomp).downcase
+  if student_username[/\s/] != nil
     puts "Name not having a space"
-    std_uname = (gets.chomp).downcase
+    student_username = (gets.chomp).downcase
   end
   puts "Enter Student Roll No"
   std_rollno = gets.chomp
   puts "Enter Student Status"
   puts "(status can be freshman, sophomore, junior and senior)"
   std_status = gets.chomp
-  return std_fname, std_lname, std_pass, std_uname, std_rollno, std_status
+  return std_fname, std_lname, std_pass, student_username, std_rollno, std_status
 end
 
 #instructor input
@@ -79,16 +80,16 @@ def instructor_input
     end
   end
   puts "Enter User Name: "
-  inst_uname = (gets.chomp).downcase
-  if inst_uname[/\s/] != nil
+  instructor_username = (gets.chomp).downcase
+  if instructor_username[/\s/] != nil
     puts "Name not having a space"
-    inst_uname = (gets.chomp).downcase
+    instructor_username = (gets.chomp).downcase
   end
   puts "Enter Instructor Designation"
   inst_designation = gets.chomp
   puts "Enter Instructor Qualification"
   inst_qualification = gets.chomp
-  return inst_fname, inst_lname, inst_pass, inst_uname, inst_designation, inst_qualification
+  return inst_fname, inst_lname, inst_pass, instructor_username, inst_designation, inst_qualification
 end
 
 #course input
@@ -131,12 +132,15 @@ if option == "1"
   entry_name = (gets.chomp).downcase
   puts "Enter a valid Password"
   pass = gets.chomp
+
   mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
   b = []
   mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
   mem = Hash[*b.map(&:to_a).flatten]
   mem["instructor_user_name"]
   system("clear")
+  Student.getprofile(entry_name)
+  Instructor.getprofile(entry_name)
   puts "         Instructor Menu  "
   puts "     1.Add Course"
   puts "     2.Add Marks"
@@ -169,10 +173,6 @@ if option == "1"
     else
       puts "HALT...!!! You Choose Wrong option "
     end
-    # end
-    # course = Course.new("123", "isl", "st", "123", mem["instructor_username"])
-    # course.save_course
-    # puts Course.find_by(entry_name)
   elsif choice == "2"
     puts "Enter Assignment Course Code"
     search_code = (gets.chomp).downcase
