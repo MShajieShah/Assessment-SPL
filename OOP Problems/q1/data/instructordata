@@ -1,3 +1,1 @@
-Instructor First Name: q Instructor Last Name: q  Instructor Password: a1 Instructor User Name: shajie Instructor Designation: aq Instructor Qualification: aq
-Instructor First Name: abc Instructor Last Name: abc  Instructor Password: a1 Instructor User Name: abc Instructor Designation: abc Instructor Qualification: abc
-Instructor First Name: shajie Instructor Last Name: shah  Instructor Password: a1 Instructor User Name: shajie Instructor Designation: teacher Instructor Qualification: ms
+instructor_first_name: shajie,instructor_last_name: shah,instructor_password: a1,instructor_username: sshah,instructor_designation: Professor,instructor_qualification: MSCS

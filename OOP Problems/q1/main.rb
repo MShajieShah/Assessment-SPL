@@ -23,9 +23,10 @@
 # Override a method getProfile in User class that will print status for Student and designation for a Professor i.e. for Student("Sohail Aslam","senior") getProfile prints Sohail Aslam is a senior student at LUMS
 # And for a Professor("Habib-ur-Rehman","Assistant Professor") overridden getProfile will print Habib-ur-Rehman is Assistant Professor at LUMS
 # Overload operators if required.
-# Thought Process and Approach in this problem should be well documented
+# # Thought Process and Approach in this problem should be well documented
 require_relative "student.rb"
 require_relative "instructor.rb"
+require_relative "assignment.rb"
 require_relative "course.rb"
 
 def student_input
@@ -96,12 +97,22 @@ def course_input
   course_code = (gets.chomp).downcase
   puts "Enter Course Name: "
   course_name = gets.chomp
-  puts "Enter Course : "
+  puts "Enter Offering School : "
   offering_school = gets.chomp
-  puts "Enter Course Name: "
+  puts "Enter Capacity: "
   capacity = gets.chomp
 
   return course_code, course_name, offering_school, capacity
+end
+
+#assignment input
+def assignment_input
+  puts "Enter Assignment Course Code"
+  assign_course_code = (gets.chomp).downcase
+  puts "Enter Assignment Title: "
+  assign_title = gets.chomp
+
+  return assign_course_code, assign_title
 end
 
 puts "-------------------------------------"
@@ -121,10 +132,58 @@ if option == "1"
   puts "Enter a valid Password"
   pass = gets.chomp
   mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
-  # courses = course_input
-  # cour = Course.new(courses[0], courses[1], courses[2], courses[3], mem)
-  # cour.save_course
-  p mem.course_names
+  b = []
+  mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
+  mem = Hash[*b.map(&:to_a).flatten]
+  mem["instructor_user_name"]
+  system("clear")
+  puts "         Instructor Menu  "
+  puts "     1.Add Course"
+  puts "     2.Add Marks"
+  puts "     3.Add Resources"
+  puts "     4.Add Assignment"
+  puts "     5.Exit"
+  choice = gets.chomp
+  if choice == "1"
+
+    # course_menu_flag = true
+    # while course_menu_flag
+    system("clear")
+    puts "         Course Menu  "
+    puts "     1.Add Course"
+    puts "     2.Show Course List"
+    puts "     3.Return"
+    pick = gets.chomp
+    if pick == "1"
+      courses = course_input
+      course = Course.new(courses[0], courses[1], courses[2], courses[3], mem["instructor_username"])
+      course.save_course
+      puts "Enter any key to continue"
+      inp = gets.chomp
+    elsif pick == "2"
+      puts Course.find_by(entry_name)
+      puts "Enter any key to continue"
+      inp = gets.chomp
+      # elsif pick == "3"
+      #   course_menu_flag = false
+    else
+      puts "HALT...!!! You Choose Wrong option "
+    end
+    # end
+    # course = Course.new("123", "isl", "st", "123", mem["instructor_username"])
+    # course.save_course
+    # puts Course.find_by(entry_name)
+  elsif choice == "2"
+    puts "Enter Assignment Course Code"
+    search_code = (gets.chomp).downcase
+    Assignment.update_member(search_code)
+  elsif choice == "3"
+  elsif choice == "4"
+    assignments = assignment_input
+    assign = Assignment.new(assignments[0], assignments[1], mem["instructor_username"])
+    assign.save_assign
+  else
+  end
 elsif option == "2"
   system("clear")
   puts "-------------------------------------"
@@ -167,50 +226,3 @@ else
   puts "HALT....!!!! You choose the wrong Option"
   puts "Restart again"
 end
-# end
-
-# course_menu_flag = true
-# while course_menu_flag
-#   system("clear")
-#   puts "         Course Menu  "
-#   puts "     1.Add Course"
-#   puts "     2.Show Course List"
-#   puts "     3.Return"
-#   pick = gets.chomp
-#   if pick == "1"
-#     courses = course_input
-#     cour = Course.new(courses[0], courses[1], courses[2], courses[3])
-#     cour.save_course
-#     puts "Enter any key to continue"
-#     inp = gets.chomp
-#   elsif pick == "2"
-#     Course.show_course
-#     puts "Enter any key to continue"
-#     inp = gets.chomp
-#   elsif pick == "3"
-#     course_menu_flag = false
-#   else
-#     puts "HALT...!!! You Choose Wrong option "
-#   end
-# end
-# #students
-# shaje = Student.new("Shajie", "shah", "abc", "shah", "123", "no")
-# noman = Student.new("Noman", "Jamil", "def", "nomi", "321", "yes")
-
-# inst = Instructor.new("shajie", "shah", "a1", "sshah", "Professor", "MSCS")
-
-# #courses
-# #shaje
-# english = Course.new("123", "English", "st.stephen", "123", inst)
-# math = Course.new("321", "Math", "st.stephen", "321", shaje)
-# stat = Course.new("456", "Stat", "st.stephen", "456", shaje)
-# computer = Course.new("654", "Computer", "st.stephen", "654", shaje)
-
-# #noman
-# urdu = Course.new("789", "Urdu", "st.stephen", "123", noman)
-# isl = Course.new("987", "Islamiyat", "st.stephen", "123", noman)
-# sst = Course.new("85", "Social Studies", "st.stephen", "123", noman)
-# sci = Course.new("58", "Sciences", "st.stephen", "123", noman)
-
-# p inst.course_names
-# p noman.course_names
