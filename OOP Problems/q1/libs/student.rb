@@ -34,6 +34,10 @@ class Student < User
     mem_list = File.readlines("data/coursedata").select { |word| word.include?(name) }
     puts mem_list
   end
+  def self.show_resource(name)
+    mem_list = File.readlines("data/resourcesdata").select { |word| word.include?(name) }
+    puts mem_list
+  end
   # def courses
   #   Course.all.select { |course| course.student == self }
   # end

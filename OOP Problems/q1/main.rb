@@ -24,12 +24,13 @@
 # And for a Professor("Habib-ur-Rehman","Assistant Professor") overridden getProfile will print Habib-ur-Rehman is Assistant Professor at LUMS
 # Overload operators if required.
 # # Thought Process and Approach in this problem should be well documented
-require_relative "user.rb"
-require_relative "student.rb"
-require_relative "instructor.rb"
-require_relative "course.rb"
-require_relative "assignment.rb"
-require_relative "marks.rb"
+require_relative "libs/user.rb"
+require_relative "libs/student.rb"
+require_relative "libs/instructor.rb"
+require_relative "libs/course.rb"
+require_relative "libs/assignment.rb"
+require_relative "libs/marks.rb"
+require_relative "libs/resource.rb"
 
 def student_input
   puts "Enter First Name: "
@@ -128,6 +129,15 @@ def mark_input
   return assign_name, student_name, assign_marks
 end
 
+#resources_input
+def resource_input
+  puts "Enter Assignment Name"
+  assign_subject = (gets.chomp).downcase
+  puts "Enter Resource: "
+  resource_name = gets.chomp
+  return assign_subject, resource_name
+end
+
 puts "-------------------------------------"
 puts "|                                   |"
 puts "|   Learning Management System      |"
@@ -165,6 +175,9 @@ if option == "1"
     puts "Enter any key to continue"
     inp = gets.chomp
   elsif choice == "2"
+    puts "Enter Assignment Name"
+    course_code = gets.chomp
+    Student.show_resource(course_code)
   elsif choice == "3"
     Student.show_course(student_username)
     puts "Enter any key to continue"
@@ -224,6 +237,9 @@ elsif option == "2"
     mark = Marks.new(marks[0], marks[1], marks[2])
     mark.save_assign_marks
   elsif choice == "3"
+    resources = resource_input
+    resour = Resource.new(resources[0], resources[1])
+    resour.save_resources
   elsif choice == "4"
     assignments = assignment_input
     assign = Assignment.new(assignments[0], assignments[1], mem["instructor_username"])
