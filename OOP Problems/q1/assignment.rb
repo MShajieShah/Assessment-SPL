@@ -18,22 +18,26 @@ class Assignment < Instructor
     puts "Assignment Added Sucessfully"
   end
 
-  def self.add_assign_marks(search_code)
-    mem = File.readlines("data/assignmentdata").select { |word| word.include?(search_code) }
-    puts "Enter Marks"
-    marks = gets.chomp
+  # def self.add_assign_marks(search_code)
+  #   mem = File.readlines("data/assignmentdata").select { |word| word.include?(search_code) }
+  #   puts "Enter Marks"
+  #   marks = gets.chomp
 
-    read_file = File.new("data/assignmentdata", "r+").read
-    write_file = File.new("data/assignmentdata", "w")
-    puts "Record Updated Sucessfully"
-    read_file.each_line do |line|
-      write_file.write(line) unless line.include? search_code
-    end
-    write_file.close
+  #   read_file = File.new("data/assignmentdata", "r+").read
+  #   write_file = File.new("data/assignmentdata", "w")
+  #   puts "Record Updated Sucessfully"
+  #   read_file.each_line do |line|
+  #     write_file.write(line) unless line.include? search_code
+  #   end
+  #   write_file.close
 
-    ifile = File.open("data/assignmentdata")
-    data = ifile.readlines
-    data.insert(1, mem[0].chomp << ",marks: " + marks)
-    File.write("data/assignmentdata", data.join, mode: "w+")
+  #   ifile = File.open("data/assignmentdata")
+  #   data = ifile.readlines
+  #   data.insert(1, mem[0].chomp << ",marks: " + marks)
+  #   File.write("data/assignmentdata", data.join, mode: "w+")
+  # end
+  def self.show_assign(course_code)
+    mem_list = File.readlines("data/assignmentdata").select { |word| word.include?(course_code) }
+    puts mem_list
   end
 end

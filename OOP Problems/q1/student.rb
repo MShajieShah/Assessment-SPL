@@ -30,7 +30,10 @@ class Student < User
       p "Not Found"
     end
   end
-
+  def self.show_course(name)
+    mem_list = File.readlines("data/coursedata").select { |word| word.include?(name) }
+    puts mem_list
+  end
   # def courses
   #   Course.all.select { |course| course.student == self }
   # end

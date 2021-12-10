@@ -8,12 +8,6 @@ class User
   end
 
   def self.getprofile(entry_name)
-    if 
-      puts ""
-    elsif instructor?
-      puts ""
-    else
-    puts "Not Found"
-    end
+    @user_firstname
   end
 end

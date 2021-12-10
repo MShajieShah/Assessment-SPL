@@ -29,6 +29,7 @@ require_relative "student.rb"
 require_relative "instructor.rb"
 require_relative "course.rb"
 require_relative "assignment.rb"
+require_relative "marks.rb"
 
 def student_input
   puts "Enter First Name: "
@@ -116,14 +117,26 @@ def assignment_input
   return assign_course_code, assign_title
 end
 
+#marks input
+def mark_input
+  puts "Enter Assignment Name"
+  assign_name = (gets.chomp).downcase
+  puts "Enter Student User Name: "
+  student_name = gets.chomp
+  puts "Enter Marks"
+  assign_marks = gets.chomp
+  return assign_name, student_name, assign_marks
+end
+
 puts "-------------------------------------"
 puts "|                                   |"
 puts "|   Learning Management System      |"
 puts "|                                   |"
 puts "-------------------------------------"
-puts "       1. Sign In"
-puts "       2. Sign Up"
-puts "       3. Exit"
+puts "       1. Sign In As Student"
+puts "       2. Sign In As Instructor"
+puts "       3. Sign Up"
+puts "       4. Exit"
 # main_menu_flag = true
 option = gets.chomp
 # while main_menu_flag
@@ -133,13 +146,46 @@ if option == "1"
   puts "Enter a valid Password"
   pass = gets.chomp
 
+  mem = File.readlines("data/studentdata").select { |word| word.include?(entry_name) }
+  b = []
+  mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
+  mem = Hash[*b.map(&:to_a).flatten]
+  student_username = mem["student_user_name"]
+  system("clear")
+  Student.getprofile(entry_name)
+  puts "         Student Menu  "
+  puts "     1.View Marks"
+  puts "     2.View Resource"
+  puts "     3.View Roaster"
+  puts "     4.View Assignment"
+  puts "     5.Exit"
+  choice = gets.chomp
+  if choice == "1"
+    Marks.show_marks(student_username)
+    puts "Enter any key to continue"
+    inp = gets.chomp
+  elsif choice == "2"
+  elsif choice == "3"
+    Student.show_course(student_username)
+    puts "Enter any key to continue"
+    inp = gets.chomp
+  elsif choice == "4"
+    puts "Enter Course code"
+    course_code = gets.chomp
+    Assignment.show_assign(course_code)
+  elsif choice == "5"
+  end
+elsif option == "2"
+  puts "Enter User Name"
+  entry_name = (gets.chomp).downcase
+  puts "Enter a valid Password"
+  pass = gets.chomp
   mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
   b = []
   mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
   mem = Hash[*b.map(&:to_a).flatten]
   mem["instructor_user_name"]
   system("clear")
-  Student.getprofile(entry_name)
   Instructor.getprofile(entry_name)
   puts "         Instructor Menu  "
   puts "     1.Add Course"
@@ -174,9 +220,9 @@ if option == "1"
       puts "HALT...!!! You Choose Wrong option "
     end
   elsif choice == "2"
-    puts "Enter Assignment Course Code"
-    search_code = (gets.chomp).downcase
-    Assignment.update_member(search_code)
+    marks = mark_input
+    mark = Marks.new(marks[0], marks[1], marks[2])
+    mark.save_assign_marks
   elsif choice == "3"
   elsif choice == "4"
     assignments = assignment_input
@@ -184,7 +230,7 @@ if option == "1"
     assign.save_assign
   else
   end
-elsif option == "2"
+elsif option == "3"
   system("clear")
   puts "-------------------------------------"
   puts "|                                   |"
@@ -206,13 +252,8 @@ elsif option == "2"
       inst = Instructor.new(instructors[0], instructors[1], instructors[2], instructors[3], instructors[4], instructors[5])
       system("clear")
       inst.save_inst
-      p "Want to add course??"
-      courses = course_input
-      cour = Course.new(courses[0], courses[1], courses[2], courses[3], inst)
-      cour.save_course
-      p inst.course_names
     elsif pick == "3"
-      signup_menu_flag = false
+      # signup_menu_flag = false
     else
       system("clear")
       puts "HALT....!!!! You choose the wrong Option"
