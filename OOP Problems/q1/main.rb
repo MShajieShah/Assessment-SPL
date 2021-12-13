@@ -138,148 +138,200 @@ def resource_input
   return assign_subject, resource_name
 end
 
-puts "-------------------------------------"
-puts "|                                   |"
-puts "|   Learning Management System      |"
-puts "|                                   |"
-puts "-------------------------------------"
-puts "       1. Sign In As Student"
-puts "       2. Sign In As Instructor"
-puts "       3. Sign Up"
-puts "       4. Exit"
-# main_menu_flag = true
-option = gets.chomp
-# while main_menu_flag
-if option == "1"
-  puts "Enter User Name"
-  entry_name = (gets.chomp).downcase
-  puts "Enter a valid Password"
-  pass = gets.chomp
-
-  mem = File.readlines("data/studentdata").select { |word| word.include?(entry_name) }
-  b = []
-  mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
-  mem = Hash[*b.map(&:to_a).flatten]
-  student_username = mem["student_user_name"]
-  system("clear")
-  Student.getprofile(entry_name)
-  puts "         Student Menu  "
-  puts "     1.View Marks"
-  puts "     2.View Resource"
-  puts "     3.View Roaster"
-  puts "     4.View Assignment"
-  puts "     5.Exit"
-  choice = gets.chomp
-  if choice == "1"
-    Marks.show_marks(student_username)
-    puts "Enter any key to continue"
-    inp = gets.chomp
-  elsif choice == "2"
-    puts "Enter Assignment Name"
-    course_code = gets.chomp
-    Student.show_resource(course_code)
-  elsif choice == "3"
-    Student.show_course(student_username)
-    puts "Enter any key to continue"
-    inp = gets.chomp
-  elsif choice == "4"
-    puts "Enter Course code"
-    course_code = gets.chomp
-    Assignment.show_assign(course_code)
-  elsif choice == "5"
-  end
-elsif option == "2"
-  puts "Enter User Name"
-  entry_name = (gets.chomp).downcase
-  puts "Enter a valid Password"
-  pass = gets.chomp
-  mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
-  b = []
-  mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
-  mem = Hash[*b.map(&:to_a).flatten]
-  mem["instructor_user_name"]
-  system("clear")
-  Instructor.getprofile(entry_name)
-  puts "         Instructor Menu  "
-  puts "     1.Add Course"
-  puts "     2.Add Marks"
-  puts "     3.Add Resources"
-  puts "     4.Add Assignment"
-  puts "     5.Exit"
-  choice = gets.chomp
-  if choice == "1"
-
-    # course_menu_flag = true
-    # while course_menu_flag
-    system("clear")
-    puts "         Course Menu  "
-    puts "     1.Add Course"
-    puts "     2.Show Course List"
-    puts "     3.Return"
-    pick = gets.chomp
-    if pick == "1"
-      courses = course_input
-      course = Course.new(courses[0], courses[1], courses[2], courses[3], mem["instructor_username"])
-      course.save_course
-      puts "Enter any key to continue"
-      inp = gets.chomp
-    elsif pick == "2"
-      puts Course.find_by(entry_name)
-      puts "Enter any key to continue"
-      inp = gets.chomp
-      # elsif pick == "3"
-      #   course_menu_flag = false
-    else
-      puts "HALT...!!! You Choose Wrong option "
-    end
-  elsif choice == "2"
-    marks = mark_input
-    mark = Marks.new(marks[0], marks[1], marks[2])
-    mark.save_assign_marks
-  elsif choice == "3"
-    resources = resource_input
-    resour = Resource.new(resources[0], resources[1])
-    resour.save_resources
-  elsif choice == "4"
-    assignments = assignment_input
-    assign = Assignment.new(assignments[0], assignments[1], mem["instructor_username"])
-    assign.save_assign
-  else
-  end
-elsif option == "3"
+main_menu_flag = true
+while main_menu_flag
   system("clear")
   puts "-------------------------------------"
   puts "|                                   |"
   puts "|   Learning Management System      |"
   puts "|                                   |"
   puts "-------------------------------------"
-  puts "       1. Sign Up As Student"
-  puts "       2. Sign Up As Instructor"
-  puts "       3.Return"
-  signup_menu_flag = true
-  while signup_menu_flag
-    pick = gets.chomp
-    if pick == "1"
-      students = student_input
-      std = Student.new(students[0], students[1], students[2], students[3], students[4], students[5])
-      std.save_std
-    elsif pick == "2"
-      instructors = instructor_input
-      inst = Instructor.new(instructors[0], instructors[1], instructors[2], instructors[3], instructors[4], instructors[5])
-      system("clear")
-      inst.save_inst
-    elsif pick == "3"
-      # signup_menu_flag = false
+  puts "       1. Sign In As Student"
+  puts "       2. Sign In As Instructor"
+  puts "       3. Sign Up"
+  puts "       4. Exit"
+  option = gets.chomp
+  if option == "1"
+    puts "Enter User Name"
+    entry_name = (gets.chomp).downcase
+    puts "Enter a valid Password"
+    pass = gets.chomp
+    mem = File.readlines("data/studentdata").select { |word| word.include?(entry_name) }
+    std_pass = Student.pass_check(mem)
+    if std_pass == pass
+      if mem == []
+        puts "Record Not Found"
+        exit
+      else
+        student_username = Student.user_name(mem)  #fetching
+        student_menu_flag = true
+        while student_menu_flag
+          system("clear")
+          Student.getprofile(entry_name)
+          puts "         Student Menu  "
+          puts "     1.View Marks"
+          puts "     2.View Resource"
+          puts "     3.View Roaster"
+          puts "     4.View Assignment"
+          puts "     5.Exit"
+          choice = gets.chomp
+          if choice == "1"
+            Marks.show_marks(student_username)
+            puts "Enter any key to continue"
+            inp = gets.chomp
+          elsif choice == "2"
+            puts "Enter Assignment Name"
+            course_code = gets.chomp
+            Student.show_resource(course_code)
+            puts "Enter any key to continue"
+            inp = gets.chomp
+          elsif choice == "3"
+            Student.show_course(student_username)
+            puts "Enter any key to continue"
+            inp = gets.chomp
+          elsif choice == "4"
+            puts "Enter Course code"
+            course_code = gets.chomp
+            Assignment.show_assign(course_code)
+            puts "Enter any key to continue"
+            inp = gets.chomp
+          elsif choice == "5"
+            student_menu_flag = false
+          end
+        end
+      end
     else
-      system("clear")
-      puts "HALT....!!!! You choose the wrong Option"
-      puts "Restart again"
+      puts "Wrong Password"
+      puts "Enter any key to exit"
+      inp = gets.chomp
     end
+  elsif option == "2"
+    puts "Enter User Name"
+    entry_name = (gets.chomp).downcase
+    puts "Enter a valid Password"
+    pass = gets.chomp
+    mem = File.readlines("data/instructordata").select { |word| word.include?(entry_name) }
+    inst_pass = Instructor.pass_check(mem)
+    instructor_username = Instructor.inst_user_name(mem)
+    if inst_pass == pass
+      if instructor_username == entry_name
+        instructor_menu_flag = true
+        while instructor_menu_flag
+          system("clear")
+          Instructor.getprofile(entry_name)
+          puts "         Instructor Menu  "
+          puts "     1.Add Course"
+          puts "     2.Add Marks"
+          puts "     3.Add Resources"
+          puts "     4.Add Assignment"
+          puts "     5.Exit"
+          choice = gets.chomp
+          if choice == "1"
+            course_menu_flag = true
+            while course_menu_flag
+              system("clear")
+              puts "         Course Menu  "
+              puts "     1.Add Course"
+              puts "     2.Show Course List"
+              puts "     3.Return"
+              pick = gets.chomp
+              if pick == "1"
+                courses = course_input
+                course = Course.new(courses[0], courses[1], courses[2], courses[3], instructor_username)
+                course.save_course
+                puts "Enter any key to continue"
+                inp = gets.chomp
+              elsif pick == "2"
+                puts Course.find_by(entry_name)
+                puts "Enter any key to continue"
+                inp = gets.chomp
+              elsif pick == "3"
+                course_menu_flag = false
+              else
+                puts "HALT...!!! You Choose Wrong option "
+              end
+            end
+          elsif choice == "2"
+            marks = mark_input
+            mark = Marks.new(marks[0], marks[1], marks[2])
+            mark.save_assign_marks
+          elsif choice == "3"
+            resources = resource_input
+            resour = Resource.new(resources[0], resources[1])
+            resour.save_resources
+          elsif choice == "4"
+            assignments = assignment_input
+            assign = Assignment.new(assignments[0], assignments[1], instructor_username)
+            assign.save_assign
+          elsif choice == "5"
+            instructor_menu_flag = false
+          end
+        end
+      else
+        puts "Record Not Found"
+        puts "Enter any key to continue"
+        inp = gets.chomp
+      end
+    else
+      puts "Worng Password"
+      puts "Enter any key to continue"
+      inp = gets.chomp
+    end
+  elsif option == "3"
+    signup_menu_flag = true
+    while signup_menu_flag
+      system("clear")
+      puts "-------------------------------------"
+      puts "|                                   |"
+      puts "|   Learning Management System      |"
+      puts "|                                   |"
+      puts "-------------------------------------"
+      puts "       1. Sign Up As Student"
+      puts "       2. Sign Up As Instructor"
+      puts "       3.Return"
+      pick = gets.chomp
+      if pick == "1"
+        students = student_input
+        mem = File.readlines("data/studentdata").select { |word| word.include?(students[3]) }
+        if mem == []
+          std = Student.new(students[0], students[1], students[2], students[3], students[4], students[5])
+          std.save_std
+        else
+          system("clear")
+          p "User Name already exist"
+          p "User Name should be unique"
+          puts "Enter any key to continue"
+          inp = gets.chomp
+          exit!
+        end
+      elsif pick == "2"
+        instructors = instructor_input
+        mem = File.readlines("data/instructordata").select { |word| word.include?(instructors[3]) }
+        if mem == []
+          inst = Instructor.new(instructors[0], instructors[1], instructors[2], instructors[3], instructors[4], instructors[5])
+          system("clear")
+          inst.save_inst
+        else
+          system("clear")
+          p "User Name already exist"
+          p "User Name should be unique"
+          puts "Enter any key to continue"
+          inp = gets.chomp
+          exit!
+        end
+      elsif pick == "3"
+        signup_menu_flag = false
+      else
+        system("clear")
+        puts "HALT....!!!! You choose the wrong Option"
+        puts "Restart again"
+      end
+    end
+  elsif option = "4"
+    main_menu_flag = false
+  else
+    system("clear")
+    puts "HALT....!!!! You choose the wrong Option"
+    puts "Restart again"
   end
-  # elsif option = "3"
-  #   main_menu_flag = false
-else
-  system("clear")
-  puts "HALT....!!!! You choose the wrong Option"
-  puts "Restart again"
 end

@@ -14,7 +14,7 @@ class Student < User
     ifile = File.open("data/studentdata")
     data = ifile.readlines
     ifile.close
-    data.insert(1, "student_first_name: ", @std_firstname, ",", "student_last_name: ", @std_lastname, ",", "student_password: ", @std_pass, ",", "student_user_name: ", @student_username, ",", "student_roll_no: ", @std_rollno, ",", "student_status: ", @status, "\n")
+    data.insert(1, "student_first_name:", @std_firstname, ",", "student_last_name:", @std_lastname, ",", "student_password:", @std_pass, ",", "student_user_name:", @student_username, ",", "student_roll_no:", @std_rollno, ",", "student_status:", @status, "\n")
     File.write("data/studentdata", data.join, mode: "w")
     puts "Account Created...!!!"
   end
@@ -37,6 +37,19 @@ class Student < User
   def self.show_resource(name)
     mem_list = File.readlines("data/resourcesdata").select { |word| word.include?(name) }
     puts mem_list
+  end
+
+  def self.user_name(mem)
+    b = []
+    mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
+    mem = Hash[*b.map(&:to_a).flatten]
+    return mem["student_user_name"]
+  end
+  def self.pass_check(mem)
+    b = []
+    mem.join.split(",").each { |x| b << Hash[*x.split(":")] }
+    mem = Hash[*b.map(&:to_a).flatten]
+    return mem["student_password"]
   end
   # def courses
   #   Course.all.select { |course| course.student == self }

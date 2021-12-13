@@ -13,7 +13,7 @@ class Assignment < Instructor
     ifile = File.open("data/assignmentdata")
     data = ifile.readlines
     ifile.close
-    data.insert(1, "\n", "assignment_course_code: ", @assign_course_code, ",", "assignemnt_title: ", @assign_title, ",", "instructor_username: ", @instructor_username)
+    data.insert(1, "assignment_course_code: ", @assign_course_code, ",", "assignemnt_title: ", @assign_title, ",", "instructor_username: ", @instructor_username, "\n")
     File.write("data/assignmentdata", data.join, mode: "w")
     puts "Assignment Added Sucessfully"
   end
