@@ -327,7 +327,7 @@ while main_menu_flag
         puts "Restart again"
       end
     end
-  elsif option = "4"
+  elsif option == "4"
     main_menu_flag = false
   else
     system("clear")
