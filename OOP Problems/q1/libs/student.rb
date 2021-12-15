@@ -51,11 +51,21 @@ class Student < User
     mem = Hash[*b.map(&:to_a).flatten]
     return mem["student_password"]
   end
-  # def courses
-  #   Course.all.select { |course| course.student == self }
-  # end
 
-  # def course_names
-  #   courses.map { |course| course.course_name }
-  # end
+  def self.add_course(search_code, student_username)
+    mem = File.readlines("data/coursedata").select { |word| word.include?(search_code) }
+
+    read_file = File.new("data/coursedata", "r+").read
+    write_file = File.new("data/coursedata", "w")
+    puts "Record Updated Sucessfully"
+    read_file.each_line do |line|
+      write_file.write(line) unless line.include? search_code
+    end
+    write_file.close
+
+    ifile = File.open("data/coursedata")
+    data = ifile.readlines
+    data.insert(1, mem[0].chomp << ",student_username:" + student_username)
+    File.write("data/coursedata", data.join, mode: "w+")
+  end
 end

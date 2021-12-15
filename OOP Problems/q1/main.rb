@@ -173,7 +173,8 @@ while main_menu_flag
           puts "     2.View Resource"
           puts "     3.View Roaster"
           puts "     4.View Assignment"
-          puts "     5.Exit"
+          puts "     5.Select Course"
+          puts "     6.Exit"
           choice = gets.chomp
           if choice == "1"
             Marks.show_marks(student_username)
@@ -196,6 +197,13 @@ while main_menu_flag
             puts "Enter any key to continue"
             inp = gets.chomp
           elsif choice == "5"
+            Course.show_course
+            puts "Enter Course code which you want to select "
+            course_code = gets.chomp
+            Student.add_course(course_code, student_username)
+            puts "Enter any key to continue"
+            inp = gets.chomp
+          elsif choice == "6"
             student_menu_flag = false
           end
         end

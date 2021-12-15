@@ -15,7 +15,7 @@ class Course
     ifile = File.open("data/coursedata")
     data = ifile.readlines
     ifile.close
-    data.insert(1, "\n", "course_code: ", @course_code, " ", "course_name: ", @course_name, "  ", "offering_school: ", @offering_school, " ", "capacity: ", @capacity, " ", "instructor_username: ", @instructor_username)
+    data.insert(1, "course_code:", @course_code, ",", "course_name:", @course_name, ",", "offering_school:", @offering_school, ",", "capacity:", @capacity, ",", "instructor_username:", @instructor_username, "\n")
     File.write("data/coursedata", data.join, mode: "w")
     puts "Course Added Sucessfully"
   end
